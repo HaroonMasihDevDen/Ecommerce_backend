@@ -57,3 +57,4 @@ gem 'railties', '~> 7.1.3.4'
 gem "rack-cors"
 gem 'devise-jwt'
 gem 'jsonapi-serializer'
+gem 'active_model_serializers'
