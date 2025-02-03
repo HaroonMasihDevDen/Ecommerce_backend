@@ -1,8 +1,17 @@
 class ProductsController < ApplicationController
 
   def index
-    productWithSizeQuantity=ProductSize.where('quantity > ?',0).pluck(:product_id).uniq
+    productWithSizeQuantity = ProductSize.where('quantity > ?',0).pluck(:product_id).uniq
     products = Product.active.where(id: productWithSizeQuantity)
+
+    low_stock_product = Product.low_stock_products.first
+    if low_stock_product && low_stock_product.total_stock <= 5
+      ActionCable.server.broadcast 'stock_alert_channel', {
+        type: "low_stock_alert",
+        message: "Hurry! Only #{low_stock_product.total_stock} left in stock for #{low_stock_product.name}.",
+        product_id: low_stock_product.id
+      }
+    end
     
     render json: products, each_serializer: ProductSerializer
   end

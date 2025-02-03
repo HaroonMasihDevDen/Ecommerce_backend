@@ -29,6 +29,10 @@ class Product < ApplicationRecord
     product_sizes.where('quantity > ?',0).order(:price).first&.price
   end
 
+  def self.low_stock_products
+    active.joins(:product_sizes).select('products.*, SUM(product_sizes.quantity) AS total_stock').group('products.id').order('total_stock ASC').limit(5)
+  end
+
   private
 
   def correct_image_type
