@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_29_072044) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_03_133307) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -112,6 +112,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_29_072044) do
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_category_products_on_category_id"
     t.index ["product_id"], name: "index_category_products_on_product_id"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "admin_user_id"
+    t.text "question", null: false
+    t.text "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_user_id"], name: "index_chats_on_admin_user_id"
+    t.index ["product_id"], name: "index_chats_on_product_id"
+    t.index ["user_id"], name: "index_chats_on_user_id"
   end
 
   create_table "order_product_vouchers", force: :cascade do |t|
@@ -240,6 +253,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_29_072044) do
   add_foreign_key "categories", "categories", column: "parent_category_id"
   add_foreign_key "category_products", "categories"
   add_foreign_key "category_products", "products"
+  add_foreign_key "chats", "admin_users"
+  add_foreign_key "chats", "products"
+  add_foreign_key "chats", "users"
   add_foreign_key "order_product_vouchers", "order_products"
   add_foreign_key "order_product_vouchers", "vouchers"
   add_foreign_key "order_products", "orders"

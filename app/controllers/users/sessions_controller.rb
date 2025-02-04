@@ -38,7 +38,6 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def authenticate_user_custom
-    byebug
     token = request.headers['Authorization']&.split(' ')&.last
     if token
       begin

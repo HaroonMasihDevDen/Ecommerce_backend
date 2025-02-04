@@ -17,19 +17,26 @@ Rails.application.routes.draw do
   get 'validate_token', to: 'token_auth#validate'
 
   resources :categories
+
   resources :products do
     collection do
       get 'search', to: 'products#search'
       get 'filter', to: 'products#filter'
     end
+
+    resources :chats
   end
+
   resources :category_products do
     collection do
       get :'category_products_with_multiple_category_ids', to: 'category_products#category_products_with_multiple_category_ids'
     end
   end
+
   resources :cart_items
+
   resources :vouchers
+
   post 'validate_voucher', to: 'vouchers#validate'
   get 'token_auth/validate'
 

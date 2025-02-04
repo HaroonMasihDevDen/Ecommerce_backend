@@ -8,6 +8,7 @@ class Product < ApplicationRecord
   has_many :product_sizes, dependent: :destroy
   has_many :sizes, through: :product_sizes
   has_many_attached :images
+  has_many :chats
   
   validate :correct_image_type
   validate :acceptable_image_size

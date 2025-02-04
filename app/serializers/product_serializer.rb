@@ -7,7 +7,8 @@ class ProductSerializer < ActiveModel::Serializer
               :discountPercentage,
               :price,
               :sizes,
-              :base64_images
+              :base64_images,
+              :chats
 
   def discountPercentage
     object.discount_percentage
@@ -24,6 +25,12 @@ class ProductSerializer < ActiveModel::Serializer
       object.images.map do |image|
         "data:#{image.content_type};base64,#{Base64.strict_encode64(image.download)}"
       end
+    end
+  end
+
+  def chats
+    object.chats.map do |chat|
+      ChatSerializer.new(chat, scope: scope, root: false)
     end
   end
 end
