@@ -60,3 +60,5 @@ gem 'jsonapi-serializer'
 gem 'active_model_serializers'
 
 gem "ransack", "~> 4.2"
+gem 'stripe'
+

@@ -38,20 +38,30 @@ class CartItemsController < ApplicationController
 		render json: cart_items ,each_serializer: CartItemsSerializer
 	end
 
-    def destroy
+  def destroy
 		begin
 			user_id=@current_user.id
 		rescue
 			render json: { errors: 'User not authenticated' }, status: :unauthorized
 			return
 		end
-        cart_item = CartItem.find_by(id: params[:id],user_id: user_id)
-        if cart_item
-            cart_item.destroy
-            render json: { message: 'Item deleted from cart successfully' }, status: 200
-        else
-            render json: { errors: 'Item not found' }, status: :not_found
-        end
-    end
+			cart_item = CartItem.find_by(id: params[:id],user_id: user_id)
+			if cart_item
+					cart_item.destroy
+					render json: { message: 'Item deleted from cart successfully' }, status: 200
+			else
+					render json: { errors: 'Item not found' }, status: :not_found
+			end
+	end
 
+	def getCartItemCount
+		begin
+			user_id=@current_user.id
+		rescue
+			render json: { errors: 'User not authenticated' }, status: :unauthorized
+			return
+		end
+		cart_items = CartItem.where(user_id: user_id)
+		render json: cart_items.count
+	end
 end

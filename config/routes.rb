@@ -37,11 +37,18 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :cart_items
+  resources :cart_items do
+    collection do
+      get 'getCartItemCount', to: 'cart_items#getCartItemCount'    
+    end
+  end
 
   resources :vouchers
 
   post 'validate_voucher', to: 'vouchers#validate'
   get 'token_auth/validate'
+
+  post '/api/payments', to: 'payments#create'
+
 
 end
