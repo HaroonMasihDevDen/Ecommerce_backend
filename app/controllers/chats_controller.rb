@@ -7,9 +7,12 @@ class ChatsController < ApplicationController
       ActionCable.server.broadcast(
         "product_chat_#{product.id}",
         {
-          message: chat.question, 
+          question: chat.question, 
           user_name: chat.user.name, 
-          timestamps: chat.created_at
+          created_at: chat.created_at,
+          updated_at: chat.updated_at,
+          id: chat.id,
+          action: 'create'
         }
       )
       head :ok
@@ -17,6 +20,11 @@ class ChatsController < ApplicationController
       render json: { error: 'Failed to send message' }, status: :unprocessable_entity
       head :unprocessable_entity
     end
+  end
+
+  def get_all_chats
+    chats = Chat.all.order(created_at: :desc, answer: :desc)
+    render json: chats, each_serializer: ChatSerializer
   end
 
   private 

@@ -94,3 +94,12 @@
   padding: 0;
 }
 
+
+.chats {
+  .unanswered {
+    background-color: #ffecec;
+  }
+  .answered {
+    background-color: #e8f5e9;
+  }
+}

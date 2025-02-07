@@ -8,6 +8,11 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.enable_reloading = true
 
+  config.action_cable.url = "ws://localhost:3001/cable"
+  
+  config.action_cable.allowed_request_origins = ['http://localhost:3000']
+
+
   # Do not eager load code on boot.
   config.eager_load = false
 

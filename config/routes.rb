@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   ActiveAdmin.routes(self)
 
+  mount ActionCable.server => '/cable'
+
   get "up" => "rails/health#show", as: :rails_health_check
   get 'validate_token', to: 'token_auth#validate'
 
@@ -26,6 +28,8 @@ Rails.application.routes.draw do
 
     resources :chats
   end
+
+  get 'get_all_chats', to: 'chats#get_all_chats'
 
   resources :category_products do
     collection do
